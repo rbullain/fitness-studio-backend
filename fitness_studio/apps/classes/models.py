@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from versatileimagefield.fields import VersatileImageField, PPOIField
 from django_extensions.db.models import TitleSlugDescriptionModel, TimeStampedModel
 from dateutil.rrule import MO, TU, WE, TH, FR, SA, SU
 
@@ -17,6 +18,22 @@ class ClassCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ClassDescriptionMedia(models.Model):
+    """Media content of a class."""
+    class_description = models.ForeignKey('classes.ClassDescription', on_delete=models.CASCADE, related_name='media', verbose_name=_('class description'))
+
+    image = VersatileImageField(_('image'), upload_to='images/classes/', ppoi_field='ppoi')
+    alt = models.CharField(max_length=128, blank=True)
+    ppoi = PPOIField()
+
+    class Meta:
+        verbose_name = _('class media')
+        verbose_name_plural = _('class media')
+
+    def __str__(self):
+        return f"{self.pk} {self.class_description}"
 
 
 class ClassDescription(TitleSlugDescriptionModel, TimeStampedModel):
