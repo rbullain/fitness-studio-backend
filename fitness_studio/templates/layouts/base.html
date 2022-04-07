@@ -1,0 +1,35 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Meta tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- Meta tags -->
+  <link rel="icon" href="{% static 'favicon.ico' %}">
+  <title>{% block title %}{% endblock title %}</title>
+
+  <!-- Extra header content -->
+  {% block header_content %}
+  {% endblock header_content %}
+  <!-- Extra header content end -->
+</head>
+<body>
+  <!-- Navbar start -->
+  {% include 'layouts/_navbar.html' %}
+  <!-- Navbar end -->
+
+  <!-- Page content -->
+  {% block page_content %}
+  {% endblock page_content %}
+  <!-- Page content end -->
+
+  <!-- Page scripts -->
+  {% block extra_scripts %}
+  {% endblock extra_scripts %}
+  <!-- Page scripts end -->
+</body>
+</html>
