@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from django.views.generic import DetailView, ListView
 
-# Create your views here.
+from apps.classes.models import ClassDescription
+
+
+class ClassDetailView(DetailView):
+    model = ClassDescription
+    template_name = 'class-detail.html'
+
+
+class ClassListView(ListView):
+    model = ClassDescription
+    template_name = 'class-list.html'

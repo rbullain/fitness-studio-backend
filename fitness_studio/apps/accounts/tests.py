@@ -16,6 +16,6 @@ class UserManagerTestCase(TestCase):
         UserModel = get_user_model()
         user_obj = UserModel.objects.create_superuser(email='superuser@email.com', password='bar')
 
-        self.assertEqual(user_obj.email, 'user@email.com')
+        self.assertEqual(user_obj.email, 'superuser@email.com')
         self.assertTrue(user_obj.is_active)
         self.assertTrue(user_obj.is_staff)
