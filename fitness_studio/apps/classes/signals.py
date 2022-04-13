@@ -37,5 +37,7 @@ def on_class_schedule_update(instance: ClassSchedule, created, **kwargs):
             end_datetime=end_datetime,
             defaults={
                 'class_description': instance.class_description,
+                'location': instance.location,
+                'room': instance.room,
             }
         )

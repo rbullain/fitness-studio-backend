@@ -1,0 +1,36 @@
+[
+  {
+    "model": "locations.location",
+    "pk": 1,
+    "fields": {
+      "name": "Apollo Club"
+    }
+  },
+  {
+    "model": "locations.location",
+    "pk": 2,
+    "fields": {
+      "name": "Neoness"
+    }
+  },
+  {
+    "model": "locations.room",
+    "pk": 1,
+    "fields": {
+      "location": 1,
+      "name": "Room 101"
+    }
+  },
+  {
+    "model": "classes.classdescription",
+    "pk": 1,
+    "fields": {
+      "created": "2022-04-13T07:10:31.747Z",
+      "modified": "2022-04-13T07:10:31.747Z",
+      "title": "Yoga Vinyasa",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "slug": "yoga-vinyasa",
+      "price": "4.00"
+    }
+  }
+]

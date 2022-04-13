@@ -85,6 +85,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Testing
+FIXTURE_DIRS = ('apps/classes/tests/fixtures',)
+
+
 # Authentication
 AUTH_USER_MODEL = 'accounts.User'
 
