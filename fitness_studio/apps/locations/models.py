@@ -17,6 +17,7 @@ class Address(models.Model):
 
     class Meta:
         ordering = ('pk',)
+        verbose_name_plural = _("addresses")
 
     def __str__(self):
         return ", ".join([self.address_line_1, self.city, self.postal_code])
@@ -37,7 +38,7 @@ class Location(models.Model):
     """A location, usually a building."""
     name = models.CharField(_('name'), max_length=255)
     description = models.TextField(_('description'), blank=True)
-    amenities = models.ManyToManyField('locations.Amenity', related_name='locations', verbose_name=_('amenities'))
+    amenities = models.ManyToManyField('locations.Amenity', related_name='locations', blank=True, verbose_name=_('amenities'))
 
     address = models.ForeignKey('locations.Address', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('address'))
 
