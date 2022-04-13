@@ -40,6 +40,8 @@ class ClassDescription(TitleSlugDescriptionModel, TimeStampedModel):
     """Contains information about a class."""
     category = models.ForeignKey('classes.ClassCategory', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('category'))
 
+    price = models.DecimalField(_('price'), max_digits=6, decimal_places=2, null=True, blank=True)
+
     class Meta:
         verbose_name = _('class description')
         ordering = ('-created', '-modified',)
