@@ -4,15 +4,38 @@
   <h1>{{ classdescription.title }}</h1>
   <table>
     <tbody>
-      <tr>
-        <td>Category</td>
-        <td>{{ classdescription.category }}</td>
-      </tr>
-      <tr>
-        <td>Price</td>
-        <td>{{ classdescription.price|floatformat:2 }} &euro;</td>
-      </tr>
+    <tr>
+      <td>Category</td>
+      <td>{{ classdescription.category }}</td>
+    </tr>
+    <tr>
+      <td>Price</td>
+      <td>{{ classdescription.price|floatformat:2 }} &euro;</td>
+    </tr>
     </tbody>
   </table>
+
   <p>{{ classdescription.description }}</p>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Date</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for class in classdescription.classes.all|dictsort:'start_datetime' %}
+      <tr>
+        <td>{{ class.start_datetime }}</td>
+        <td><a href="#">Book</a></td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="2">No classes instances yet</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
 {% endblock page_content %}
