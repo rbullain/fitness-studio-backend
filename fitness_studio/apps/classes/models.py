@@ -58,6 +58,9 @@ class ClassInstance(TimeStampedModel):
     start_datetime = models.DateTimeField(_('start datetime'))
     end_datetime = models.DateTimeField(_('end datetime'))
 
+    location = models.ForeignKey('locations.Location', on_delete=models.SET_NULL, null=True, blank=True, related_name='classes', verbose_name=_('location'))
+    room = models.ForeignKey('locations.Room', on_delete=models.SET_NULL, null=True, blank=True, related_name='classes', verbose_name=_('room'))
+
     class Meta:
         verbose_name_plural = _("class instances")
         ordering = ('-created', '-modified',)
@@ -67,6 +70,13 @@ class ClassInstance(TimeStampedModel):
 
         if self.start_datetime > self.end_datetime:
             raise ValidationError("The start datetime must be earlier than the end datetime")
+
+        if self.room:
+            if self.location:
+                if self.room.location != self.location:
+                    raise ValidationError("The room location does not belongs to the specified location")
+            else:
+                self.location = self.room.location
 
     @property
     def duration(self):
@@ -95,6 +105,9 @@ class ClassSchedule(TimeStampedModel):
     on_saturdays = models.BooleanField(_('on saturdays'), default=False, blank=True)
     on_sundays = models.BooleanField(_('on sundays'), default=False, blank=True)
 
+    location = models.ForeignKey('locations.Location', on_delete=models.SET_NULL, null=True, blank=True, related_name='schedules', verbose_name=_('location'))
+    room = models.ForeignKey('locations.Room', on_delete=models.SET_NULL, null=True, blank=True, related_name='schedules', verbose_name=_('room'))
+
     class Meta:
         verbose_name = _('class schedule')
         ordering = ('-created', '-modified',)
@@ -106,6 +119,13 @@ class ClassSchedule(TimeStampedModel):
             raise ValidationError("The start date must be earlier than the end date")
         if not (self.on_mondays or self.on_tuesdays or self.on_wednesdays or self.on_thursdays or self.on_fridays or self.on_saturdays or self.on_sundays):
             raise ValidationError("At least one day of the week is required")
+
+        if self.room:
+            if self.location:
+                if self.room.location != self.location:
+                    raise ValidationError("The room location does not belongs to the specified location")
+            else:
+                self.location = self.room.location
 
     @property
     def weekdays(self):
