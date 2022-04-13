@@ -51,17 +51,14 @@ class ClassScheduleTestCase(TestCase):
 
     def test_schedule_instances_creation(self):
         """Test if every instance created by the schedule is properly initialized."""
-        start_time = datetime.time(hour=10)
-        end_time = datetime.time(hour=10, minute=30)
-
         schedule_obj = ClassSchedule(
             class_description=ClassDescription.objects.get(pk=1),
             location=Location.objects.get(pk=1),
             room=Room.objects.get(pk=1),
             start_date=datetime.date(2022, 10, 10),
             end_date=datetime.date(2022, 11, 10),
-            start_time=start_time,
-            end_time=end_time,
+            start_time=datetime.time(hour=10),
+            end_time=datetime.time(hour=10, minute=30),
             on_mondays=True,
         )
         schedule_obj.save()
@@ -71,8 +68,16 @@ class ClassScheduleTestCase(TestCase):
 
         # Every Monday date between the 10-10-2022 and the 10-11-2022
         tzinfo = timezone.get_current_timezone()
-        interval_dates = [datetime.date(2022, 10, 10), datetime.date(2022, 10, 17), datetime.date(2022, 10, 24),
-                          datetime.date(2022, 10, 31), datetime.date(2022, 11, 7)]
+        start_intervals = [datetime.datetime(2022, 10, 10, 10, tzinfo=tzinfo),
+                           datetime.datetime(2022, 10, 17, 10, tzinfo=tzinfo),
+                           datetime.datetime(2022, 10, 24, 10, tzinfo=tzinfo),
+                           datetime.datetime(2022, 10, 31, 10, tzinfo=tzinfo),
+                           datetime.datetime(2022, 11, 7, 10, tzinfo=tzinfo)]
+        end_intervals = [datetime.datetime(2022, 10, 10, 10, 30, tzinfo=tzinfo),
+                         datetime.datetime(2022, 10, 17, 10, 30, tzinfo=tzinfo),
+                         datetime.datetime(2022, 10, 24, 10, 30, tzinfo=tzinfo),
+                         datetime.datetime(2022, 10, 31, 10, 30, tzinfo=tzinfo),
+                         datetime.datetime(2022, 11, 7, 10, 30, tzinfo=tzinfo)]
 
         for i, instance in enumerate(schedule_obj.classes.all().order_by('start_datetime')):
             self.assertEqual(instance.class_schedule, schedule_obj)
@@ -83,5 +88,5 @@ class ClassScheduleTestCase(TestCase):
             self.assertEqual(instance.location, schedule_obj.location)
 
             # Verify intervals
-            self.assertEqual(instance.start_datetime, datetime.datetime.combine(interval_dates[i], start_time, tzinfo))
-            self.assertEqual(instance.end_datetime, datetime.datetime.combine(interval_dates[i], end_time, tzinfo))
+            self.assertEqual(instance.start_datetime, start_intervals[i])
+            self.assertEqual(instance.end_datetime, end_intervals[i])

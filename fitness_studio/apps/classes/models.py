@@ -71,12 +71,9 @@ class ClassInstance(TimeStampedModel):
         if self.start_datetime > self.end_datetime:
             raise ValidationError("The start datetime must be earlier than the end datetime")
 
-        if self.room:
-            if self.location:
-                if self.room.location != self.location:
-                    raise ValidationError("The room location does not belongs to the specified location")
-            else:
-                self.location = self.room.location
+        if self.room and self.location:
+            if self.room.location != self.location:
+                raise ValidationError("The room location does not belongs to the specified location")
 
     @property
     def duration(self):
@@ -120,12 +117,9 @@ class ClassSchedule(TimeStampedModel):
         if not (self.on_mondays or self.on_tuesdays or self.on_wednesdays or self.on_thursdays or self.on_fridays or self.on_saturdays or self.on_sundays):
             raise ValidationError("At least one day of the week is required")
 
-        if self.room:
-            if self.location:
-                if self.room.location != self.location:
-                    raise ValidationError("The room location does not belongs to the specified location")
-            else:
-                self.location = self.room.location
+        if self.room and self.location:
+            if self.room.location != self.location:
+                raise ValidationError("The room location does not belongs to the specified location")
 
     @property
     def weekdays(self):
