@@ -5,9 +5,9 @@ from apps.classes.models import ClassDescription
 
 class ClassDetailView(DetailView):
     model = ClassDescription
-    template_name = 'class-detail.html'
+    template_name = 'classes/class-detail.html'
 
 
 class ClassListView(ListView):
     model = ClassDescription
-    template_name = 'class-list.html'
+    template_name = 'classes/class-list.html'

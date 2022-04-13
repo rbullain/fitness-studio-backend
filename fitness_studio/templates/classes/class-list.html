@@ -1,1 +1,12 @@
 {% extends 'layouts/base.html' %}
+
+{% block page_content %}
+  <h1>Classes</h1>
+  <ul>
+    {% for class in object_list %}
+      <li><a href="{% url 'classes:class-detail' class.slug %}">{{ class.title }}</a></li>
+    {% empty %}
+      <li>There are not classes.</li>
+    {% endfor %}
+  </ul>
+{% endblock page_content %}

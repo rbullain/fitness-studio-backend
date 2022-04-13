@@ -1,1 +1,18 @@
 {% extends 'layouts/base.html' %}
+
+{% block page_content %}
+  <h1>{{ classdescription.title }}</h1>
+  <table>
+    <tbody>
+      <tr>
+        <td>Category</td>
+        <td>{{ classdescription.category }}</td>
+      </tr>
+      <tr>
+        <td>Price</td>
+        <td>{{ classdescription.price|floatformat:2 }} &euro;</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>{{ classdescription.description }}</p>
+{% endblock page_content %}
