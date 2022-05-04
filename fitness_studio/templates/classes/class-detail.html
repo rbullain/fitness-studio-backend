@@ -28,7 +28,7 @@
     {% for class in classdescription.classes.all|dictsort:'start_datetime' %}
       <tr>
         <td>{{ class.start_datetime }}</td>
-        <td><a href="#">Book</a></td>
+        <td><a href="{% url 'classes:class-booking' classdescription.slug class.id %}">Book</a></td>
       </tr>
     {% empty %}
       <tr>
