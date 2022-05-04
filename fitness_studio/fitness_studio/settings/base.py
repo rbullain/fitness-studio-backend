@@ -3,7 +3,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-
 # Application definition
 
 DJANGO_APPS = [
@@ -19,6 +18,8 @@ THIRD_PARTY_APPS = [
     'django_extensions',
     'rest_framework',
     'versatileimagefield',
+    'allauth',
+    'allauth.account',
 ]
 
 LOCAL_APPS = [
@@ -28,7 +29,7 @@ LOCAL_APPS = [
     'apps.locations',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,7 +61,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fitness_studio.wsgi.application'
 
-
 # Internationalization
 
 LANGUAGE_CODE = 'en-us'
@@ -69,7 +69,6 @@ USE_L10N = True
 
 TIME_ZONE = 'UTC'
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 
@@ -80,18 +79,14 @@ STATICFILES_DIRS = (BASE_DIR / 'static',)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # Testing
 FIXTURE_DIRS = ('apps/classes/tests/fixtures',)
 
-
 # Authentication
 AUTH_USER_MODEL = 'accounts.User'
-
 
 # Rest Framework
 
@@ -100,3 +95,12 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+# Allauth
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+ACCOUNT_LOGOUT_ON_GET = True

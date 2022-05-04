@@ -2,5 +2,12 @@
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/classes">Classes</a></li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
+      <li><a href="{% url 'account_logout' %}">Log Out</a></li>
+    {% else %}
+      <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+      <li><a href="{% url 'account_login' %}">Sign In</a></li>
+    {% endif %}
   </ul>
 </nav>
