@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 
 
 class UserCreationTestCase(TestCase):
@@ -28,7 +27,7 @@ class UserCreationTestCase(TestCase):
         self.assertEqual(user_obj.email, self.UserModel.objects.normalize_email(email))
 
     def test_create_superuser(self):
-        """Test if a superuser is created successfully."""
+        """Test if the superuser flags are set."""
         user_obj = self.UserModel.objects.create_superuser(email='superuser@email.com', password='foo')
 
         self.assertTrue(user_obj.is_superuser)
