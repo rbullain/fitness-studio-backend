@@ -20,6 +20,7 @@ fitness_studio/staticfiles/
 fitness_studio/fitness_studio/settings/*
 !fitness_studio/fitness_studio/settings/__init__.py
 !fitness_studio/fitness_studio/settings/base.py
+!fitness_studio/fitness_studio/settings/settings_template.py
 
 ### Python Stack ###
 # Byte-compiled / optimized / DLL files
