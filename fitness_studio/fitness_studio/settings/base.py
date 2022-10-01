@@ -15,6 +15,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'django_filters',
 ]
 
 LOCAL_APPS = [
@@ -75,3 +76,12 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # Testing
 FIXTURE_DIRS = ('tests/fixtures',)
+
+# Rest Framework
+REST_FRAMEWORK = {
+    # Pagination
+    'DEFAULT_PAGINATION_CLASS': 'api.core.pagination.CustomPagination',
+    'PAGE_SIZE': 100,
+    # Customization
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S'
+}

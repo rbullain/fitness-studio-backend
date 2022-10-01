@@ -3,6 +3,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from versatileimagefield.fields import VersatileImageField, PPOIField
+from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import TitleSlugDescriptionModel, TimeStampedModel
 from dateutil.rrule import MO, TU, WE, TH, FR, SA, SU
 
@@ -10,6 +11,7 @@ from dateutil.rrule import MO, TU, WE, TH, FR, SA, SU
 class ClassCategory(models.Model):
     """The category of a class."""
     name = models.CharField(_('name'), max_length=50)
+    slug = AutoSlugField(_('slug'), populate_from='name')
 
     class Meta:
         verbose_name_plural = _("class categories")
@@ -40,8 +42,6 @@ class ClassDescription(TitleSlugDescriptionModel, TimeStampedModel):
     """Contains information about a class."""
     category = models.ForeignKey('classes.ClassCategory', on_delete=models.SET_NULL, null=True, blank=True,
         verbose_name=_('category'))
-
-    price = models.DecimalField(_('price'), max_digits=6, decimal_places=2, null=True, blank=True)
 
     class Meta:
         verbose_name = _('class description')

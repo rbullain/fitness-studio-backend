@@ -3,25 +3,15 @@ from rest_framework import serializers
 from apps.classes.models import ClassCategory, ClassDescription, ClassInstance, ClassSchedule
 
 
-class ClassCategorySerializer(serializers.ModelSerializer):
+class ClassCategoryReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassCategory
-        fields = '__all__'
+        exclude = ('id',)
 
 
-class ClassDescriptionSerializer(serializers.ModelSerializer):
+class ClassDescriptionReadSerializer(serializers.ModelSerializer):
+    category = ClassCategoryReadSerializer()
+
     class Meta:
         model = ClassDescription
-        fields = '__all__'
-
-
-class ClassInstanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClassInstance
-        fields = '__all__'
-
-
-class ClassScheduleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClassSchedule
-        fields = '__all__'
+        exclude = ('id', 'created',)

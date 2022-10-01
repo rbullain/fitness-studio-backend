@@ -1,24 +1,16 @@
 from rest_framework import viewsets
 
-from apps.classes.models import ClassCategory, ClassDescription, ClassSchedule, ClassInstance
+from apps.classes.models import ClassDescription, ClassCategory
 from api.classes import serializers
 
 
-class ClassCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+class ClassCategoryReadViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ClassCategory.objects.all()
-    serializer_class = serializers.ClassCategorySerializer
+    serializer_class = serializers.ClassCategoryReadSerializer
+    lookup_field = 'slug'
 
 
-class ClassDescriptionViewSet(viewsets.ReadOnlyModelViewSet):
+class ClassDescriptionReadViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ClassDescription.objects.all()
-    serializer_class = serializers.ClassDescriptionSerializer
-
-
-class ClassScheduleViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = ClassSchedule.objects.all()
-    serializer_class = serializers.ClassScheduleSerializer
-
-
-class ClassInstanceViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = ClassInstance.objects.all()
-    serializer_class = serializers.ClassInstanceSerializer
+    serializer_class = serializers.ClassDescriptionReadSerializer
+    lookup_field = 'slug'
