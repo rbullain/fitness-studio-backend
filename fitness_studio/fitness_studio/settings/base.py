@@ -83,6 +83,8 @@ REST_FRAMEWORK = {
     # Pagination
     'DEFAULT_PAGINATION_CLASS': 'api.core.pagination.CustomPagination',
     'PAGE_SIZE': 100,
+    # Filtering
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     # Customization
-    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S'
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S',
 }
