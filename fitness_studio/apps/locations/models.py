@@ -21,7 +21,8 @@ class Address(models.Model):
         verbose_name_plural = _("addresses")
 
     def __str__(self):
-        return ", ".join([self.address_line_1, self.city, self.postal_code])
+        address_fields = [self.address_line_1, self.city, self.postal_code, self.country.name]
+        return ", ".join(filter(None, address_fields))
 
 
 class Amenity(models.Model):
