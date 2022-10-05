@@ -6,7 +6,7 @@ from apps.locations.models import Amenity, Location
 class AmenityReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Amenity
-        exclude = ('id',)
+        fields = '__all__'
 
 
 class LocationReadSerializer(serializers.ModelSerializer):
@@ -15,4 +15,4 @@ class LocationReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        exclude = ('id',)
+        fields = '__all__'

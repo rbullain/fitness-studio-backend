@@ -6,7 +6,7 @@ from apps.classes.models import ClassCategory, ClassDescription, ClassInstance, 
 class ClassCategoryReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassCategory
-        exclude = ('id',)
+        fields = '__all__'
 
 
 class ClassDescriptionReadSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class ClassDescriptionReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClassDescription
-        exclude = ('id', 'created',)
+        exclude = ('created',)
 
 
 class ClassScheduleReadSerializer(serializers.ModelSerializer):

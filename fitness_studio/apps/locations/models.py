@@ -2,7 +2,6 @@
 from django.db import models
 from django_countries.fields import CountryField
 from django.utils.translation import gettext_lazy as _
-from django_extensions.db.fields import AutoSlugField
 
 
 class Address(models.Model):
@@ -28,7 +27,6 @@ class Address(models.Model):
 class Amenity(models.Model):
     """Amenity available on a location."""
     name = models.CharField(_('name'), max_length=255)
-    slug = AutoSlugField(_('slug'), populate_from='name')
 
     class Meta:
         verbose_name_plural = _('amenities')
