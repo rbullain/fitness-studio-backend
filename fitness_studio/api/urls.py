@@ -9,5 +9,6 @@ router.registry.extend(classes_router.registry)
 router.registry.extend(locations_router.registry)
 
 urlpatterns = [
+    path('auth/', include('api.auth.urls')),
     path('', include(router.urls)),
 ]
