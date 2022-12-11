@@ -3,6 +3,8 @@ from django.db import models
 from django_countries.fields import CountryField
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.models import NameDescriptionModel
+
 
 class Address(models.Model):
     """Address model."""
@@ -35,10 +37,8 @@ class Amenity(models.Model):
         return self.name
 
 
-class Location(models.Model):
+class Location(NameDescriptionModel):
     """A location, usually a building."""
-    name = models.CharField(_('name'), max_length=255)
-    description = models.TextField(_('description'), blank=True)
     amenities = models.ManyToManyField('locations.Amenity', related_name='locations', blank=True,
         verbose_name=_('amenities'))
 
