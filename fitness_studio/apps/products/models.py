@@ -7,6 +7,18 @@ from versatileimagefield.fields import VersatileImageField, PPOIField
 from apps.core.models import NameDescriptionModel
 
 
+class ProductCategory(models.Model):
+    """The category of a product."""
+    name = models.CharField(_('name'), max_length=50)
+
+    class Meta:
+        verbose_name_plural = _("product categories")
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+
+
 class ProductMedia(models.Model):
     """Media content of a product."""
     product = models.ForeignKey('products.Product', on_delete=models.CASCADE, related_name='media',
@@ -26,6 +38,8 @@ class ProductMedia(models.Model):
 
 class Product(NameDescriptionModel, TimeStampedModel):
     """Contains information about a product."""
+    category = models.ForeignKey('products.ProductCategory', on_delete=models.SET_NULL, null=True, blank=True,
+        verbose_name=_('category'))
 
     class Meta:
         ordering = ('name',)

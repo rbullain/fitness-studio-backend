@@ -24,6 +24,8 @@ LOCAL_APPS = [
     'apps.classes',
     'apps.core',
     'apps.locations',
+    'apps.memberships',
+    'apps.payments',
     'apps.products',
 ]
 
