@@ -25,6 +25,18 @@ class ClassScheduleReadSerializer(serializers.ModelSerializer):
         exclude = ('created',)
 
 
+class ClassScheduleCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassSchedule
+        fields = '__all__'
+
+
+class ClassScheduleUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassSchedule
+        fields = '__all__'
+
+
 class ClassInstanceReadSerializer(serializers.ModelSerializer):
     class_description = ClassDescriptionReadSerializer()
 
