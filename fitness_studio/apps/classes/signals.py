@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -9,7 +9,7 @@ from apps.classes.models import ClassSchedule, ClassInstance
 
 @receiver(post_save, sender=ClassSchedule)
 def on_class_schedule_update(instance: ClassSchedule, created, **kwargs):
-    """"""
+    """Update or delete related ClassInstance objects when a ClassSchedule is updated."""
     weekdays = instance.weekdays
 
     if not created:
@@ -20,18 +20,23 @@ def on_class_schedule_update(instance: ClassSchedule, created, **kwargs):
         # Delete classes that are not in the date interval
         instance.classes.filter(start_datetime__lt=instance.start_date, start_datetime__gt=instance.end_date).delete()
 
-        # Update classes that belongs to the schedule
-        for cl in instance.classes.all():  # type: ClassInstance
-            cl.class_description = instance.class_description
-            cl.start_datetime = datetime.datetime.combine(cl.start_datetime.date(), instance.start_time, timezone.get_current_timezone())
-            cl.end_datetime = datetime.datetime.combine(cl.end_datetime.date(), instance.end_time, timezone.get_current_timezone())
+        # Update classes time that belongs to the schedule
+        fields_to_update = ['class_description', 'start_datetime', 'end_datetime']
+        updated_classes_instances = [
+            ClassInstance(
+                id=cl.id,
+                class_description=instance.class_description,
+                start_datetime=datetime.combine(cl.start_datetime.date(), instance.start_time, timezone.get_current_timezone()),
+                end_datetime=datetime.combine(cl.end_datetime.date(), instance.end_time, timezone.get_current_timezone())
+            ) for cl in instance.classes.all()
+        ]
 
-            cl.save(update_fields=['class_description', 'start_datetime', 'end_datetime'])
+        ClassInstance.objects.bulk_update(updated_classes_instances, fields_to_update)
 
     # Create class instances that are missing
     for dt in rrule(WEEKLY, dtstart=instance.start_date, until=instance.end_date, byweekday=weekdays):
-        start_datetime = datetime.datetime.combine(dt, instance.start_time, timezone.get_current_timezone())
-        end_datetime = datetime.datetime.combine(dt, instance.end_time, timezone.get_current_timezone())
+        start_datetime = datetime.combine(dt, instance.start_time, timezone.get_current_timezone())
+        end_datetime = datetime.combine(dt, instance.end_time, timezone.get_current_timezone())
 
         cl_obj, _ = instance.classes.get_or_create(
             start_datetime=start_datetime,
