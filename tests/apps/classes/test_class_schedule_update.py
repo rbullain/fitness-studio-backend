@@ -1,17 +1,20 @@
 import datetime
 from django.test import TestCase
 
-from apps.classes.models import ClassSchedule, ClassDescription, ClassInstance
+from apps.classes.models import ClassSchedule, ClassDescription
 from tests.apps.classes.utils import assert_valid_schedule_instances
 
 
 class ClassScheduleCreationTestCase(TestCase):
     fixtures = ('app_classes_initial.json',)
 
+    def setUp(self):
+        self.class_description = ClassDescription.objects.get(pk=1)
+
     def test_create_schedule_one_weekday(self):
         """Test if a schedule, and all its instances are successfully created with one weekday."""
         schedule_data = {
-            'class_description': ClassDescription.objects.get(pk=1),
+            'class_description': self.class_description,
             'start_date': datetime.date(2022, 10, 10),
             'end_date': datetime.date(2022, 11, 10),
             'start_time': datetime.time(hour=10),
@@ -28,7 +31,7 @@ class ClassScheduleCreationTestCase(TestCase):
         """Test if a schedule, and all its instances are successfully created with more than
         one weekday."""
         schedule_data = {
-            'class_description': ClassDescription.objects.get(pk=1),
+            'class_description': self.class_description,
             'start_date': datetime.date(2022, 10, 10),
             'end_date': datetime.date(2022, 11, 10),
             'start_time': datetime.time(hour=10),
@@ -47,20 +50,20 @@ class ClassScheduleCreationTestCase(TestCase):
 class ClassScheduleUpdateTestCase(TestCase):
     fixtures = ('app_classes_schedule.json',)
 
-    def test_update_schedule_interval_add_classes(self):
-        """"""
-        schedule_obj = ClassSchedule.objects.get(id=1)
+    def setUp(self):
+        self.schedule_obj = ClassSchedule.objects.get(id=1)
 
-        schedule_obj.start_date = datetime.date(year=2022, month=9, day=26)
-        schedule_obj.save()
+    def test_update_schedule_interval_increase_add_classes_instances(self):
+        """Test if all the necessary instances are created when the interval is increased."""
+        self.schedule_obj.start_date = datetime.date(year=2022, month=9, day=26)  # From 2022-10-01
+        self.schedule_obj.save()
 
-        assert_valid_schedule_instances(self, schedule_obj)
+        assert_valid_schedule_instances(self, self.schedule_obj)
 
-    def test_update_schedule_interval_delete_classes(self):
-        """"""
-        schedule_obj = ClassSchedule.objects.get(id=1)
+    def test_update_schedule_interval_decrease_delete_classes_instances(self):
+        """Test if all instances that does not belong to the interval are deleted when a date
+        is reduced."""
+        self.schedule_obj.end_date = datetime.date(year=2022, month=10, day=5)  # From 2022-10-21
+        self.schedule_obj.save()
 
-        schedule_obj.end_date = datetime.date(year=2022, month=10, day=5)
-        schedule_obj.save()
-
-        assert_valid_schedule_instances(self, schedule_obj)
+        assert_valid_schedule_instances(self, self.schedule_obj)

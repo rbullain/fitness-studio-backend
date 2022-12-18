@@ -9,10 +9,13 @@ from apps.locations.models import Location, Room
 class ClassScheduleValidationTestCase(TestCase):
     fixtures = ('app_classes_initial.json',)
 
+    def setUp(self):
+        self.class_description = ClassDescription.objects.get(pk=1)
+
     def test_create_schedule_no_weekday(self):
         """Test if an exception is raised when no `weekday` is defined."""
         schedule_data = {
-            'class_description': ClassDescription.objects.get(pk=1),
+            'class_description': self.class_description,
             'start_date': datetime.date(2022, 10, 10),
             'end_date': datetime.date(2022, 11, 10),
             'start_time': datetime.time(hour=10),
@@ -26,7 +29,7 @@ class ClassScheduleValidationTestCase(TestCase):
     def test_create_schedule_start_time_greater_than_end_time(self):
         """Test if an exception is raised when the `start_time` is greater than the `end_time`."""
         schedule_data = {
-            'class_description': ClassDescription.objects.get(pk=1),
+            'class_description': self.class_description,
             'start_date': datetime.date(2022, 11, 10),
             'end_date': datetime.date(2022, 10, 10),
             'start_time': datetime.time(hour=10, minute=30),
@@ -41,7 +44,7 @@ class ClassScheduleValidationTestCase(TestCase):
     def test_create_schedule_start_date_greater_than_end_date(self):
         """Test if an exception is raised when the `start_date` is greater than the `end_date`."""
         schedule_data = {
-            'class_description': ClassDescription.objects.get(pk=1),
+            'class_description': self.class_description,
             'start_date': datetime.date(2022, 11, 10),
             'end_date': datetime.date(2022, 10, 10),
             'start_time': datetime.time(hour=10),
@@ -57,7 +60,7 @@ class ClassScheduleValidationTestCase(TestCase):
         """Test if an exception is raised when a `location` and a `room` belonging to a different
         location are defined at the same time during cleaning."""
         schedule_data = {
-            'class_description': ClassDescription.objects.get(pk=1),
+            'class_description': self.class_description,
             'location': Location.objects.get(pk=2),
             'room': Room.objects.get(pk=1),
             'start_date': datetime.date(2022, 11, 10),
