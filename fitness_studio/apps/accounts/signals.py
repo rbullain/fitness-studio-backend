@@ -8,7 +8,8 @@ UserModel = get_user_model()
 
 
 @receiver(post_save, sender=UserModel)
-def on_user_update(instance: UserModel, created, **kwargs):
+def on_user_creation_create_profile(instance: UserModel, created, **kwargs):
+    """Create a UserProfile related to the new user on creation."""
     if created:
         if not hasattr(instance, 'profile'):
             profile = UserProfile.objects.create(user=instance)

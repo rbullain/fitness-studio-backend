@@ -41,7 +41,7 @@ def on_class_schedule_update_update_class_instances(instance: ClassSchedule, **k
 
 @receiver(post_save, sender=ClassSchedule)
 def on_class_schedule_update_create_missing_class_instances(instance: ClassSchedule, **kwargs):
-    """Create missing class instances."""
+    """Create missing ClassInstances when ClassSchedule is updated."""
     if kwargs.get('raw', False):
         # Avoid execution when loading fixtures
         return

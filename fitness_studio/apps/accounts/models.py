@@ -27,7 +27,7 @@ class User(AbstractBaseUser, TimeStampedModel, PermissionsMixin):
     last_name = models.CharField(_('last name'), max_length=40)
 
     is_staff = models.BooleanField(_('is staff'), default=False)
-    is_active = models.BooleanField(_('is active'), default=True)
+    is_active = models.BooleanField(_('is active'), default=False)
 
     objects = UserManager()
 
