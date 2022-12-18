@@ -117,6 +117,8 @@ class ClassSchedule(TimeStampedModel):
     def clean(self):
         super(ClassSchedule, self).clean()
 
+        if self.start_time > self.end_time:
+            raise ValidationError("The start time must be earlier than the end time")
         if self.start_date > self.end_date:
             raise ValidationError("The start date must be earlier than the end date")
         if not (self.on_mondays or self.on_tuesdays or self.on_wednesdays or self.on_thursdays or self.on_fridays or
