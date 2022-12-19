@@ -36,3 +36,6 @@ AUTH_PASSWORD_VALIDATORS = [
         }
     },
 ]
+
+STRIPE_PUBLIC_KEY = 'pk_xxx'
+STRIPE_SECRET_KEY = 'sk_xxx'
