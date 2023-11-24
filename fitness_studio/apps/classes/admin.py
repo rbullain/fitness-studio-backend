@@ -24,7 +24,17 @@ class ClassDescriptionAdmin(admin.ModelAdmin):
 @admin.register(ClassInstance)
 class ClassInstanceAdmin(admin.ModelAdmin):
     search_fields = ('class_description__title',)
-    list_display = ('title', 'start_datetime', 'location',)
+    list_display = ('title', 'start_date', 'start_time', 'end_time', 'location',)
+    ordering = ('class_description__title', 'start_datetime',)
 
     def title(self, instance):
         return instance.class_description.title
+
+    def start_time(self, instance):
+        return instance.start_datetime.time()
+
+    def end_time(self, instance):
+        return instance.end_datetime.time()
+
+    def start_date(self, instance):
+        return instance.start_datetime.strftime('%a, %b %d, %Y')
