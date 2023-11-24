@@ -23,16 +23,19 @@ def on_class_schedule_update_update_class_instances(instance: ClassSchedule, **k
         instance.classes.exclude(start_datetime__week_day__in=dj_weekdays).delete()
 
         # Delete classes that are not in the date interval
-        instance.classes.filter(Q(start_datetime__lt=instance.start_date) | Q(start_datetime__gt=instance.end_date)).delete()
+        instance.classes.filter(
+            Q(start_datetime__lt=instance.start_date) | Q(start_datetime__gt=instance.end_date)).delete()
 
         # Update classes time that belongs to the schedule
-        fields_to_update = ['class_description', 'start_datetime', 'end_datetime']
+        fields_to_update = ['class_description', 'start_datetime', 'end_datetime', 'location', 'room', ]
         updated_classes_instances = [
             ClassInstance(
                 id=cl.id,
                 class_description=instance.class_description,
                 start_datetime=datetime.combine(cl.start_datetime.date(), instance.start_time, tz),
-                end_datetime=datetime.combine(cl.end_datetime.date(), instance.end_time, tz)
+                end_datetime=datetime.combine(cl.end_datetime.date(), instance.end_time, tz),
+                location=instance.location,
+                room=instance.room,
             ) for cl in instance.classes.all()
         ]
 
