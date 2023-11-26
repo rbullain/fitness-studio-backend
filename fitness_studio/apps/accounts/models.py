@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
+from versatileimagefield.fields import VersatileImageField, PPOIField
 from django_extensions.db.models import TimeStampedModel
 
 
@@ -59,13 +60,19 @@ class UserProfile(models.Model):
     class Gender(models.TextChoices):
         MALE = ("M", _("Male"))
         FEMALE = ("F", _("Female"))
+        OTHER = ("O", _("Other"))
         __empty__ = _("Not specified")
+
+    MAX_BIO_LENGTH = 255
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile',
         verbose_name=_('user'))
-    bio = models.TextField(_('bio'), max_length=1000, blank=True)
+    bio = models.TextField(_('bio'), max_length=MAX_BIO_LENGTH, blank=True)
     birth_date = models.DateField(_('birth date'), null=True, blank=True)
     gender = models.CharField(_('gender'), max_length=1, choices=Gender.choices, null=True, blank=True)
+
+    picture = VersatileImageField(_('picture'), upload_to='images/profiles/', ppoi_field='ppoi', null=True, blank=True)
+    ppoi = PPOIField()
 
     class Meta:
         verbose_name = _('user profile')

@@ -17,6 +17,8 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'django_filters',
     'django_countries',
+
+    'versatileimagefield',
 ]
 
 LOCAL_APPS = [
