@@ -11,8 +11,7 @@ class ClassCategory(models.Model):
     DEFAULT_CATEGORY_IMAGE_PATH = 'images/categories/default.png'
 
     name = models.CharField(_('name'), max_length=50)
-    image = VersatileImageField(_('image'), upload_to='images/categories/', default=DEFAULT_CATEGORY_IMAGE_PATH,
-        null=True, blank=True)
+    image = VersatileImageField(_('image'), upload_to='images/categories/', null=True, blank=True)
 
     class Meta:
         verbose_name_plural = _("class categories")
