@@ -62,7 +62,7 @@ class ClassScheduleCreationValidationTestCase(TestCase):
         self.end_time = datetime.time(hour=10, minute=30)  # 10:30:00
 
     @staticmethod
-    def _create_and_clean(**kwargs):
+    def _create_and_clean_schedule(**kwargs):
         """Helper method to create and validate a ClassSchedule object."""
         schedule_obj = ClassSchedule(**kwargs)
         schedule_obj.clean()
@@ -80,7 +80,7 @@ class ClassScheduleCreationValidationTestCase(TestCase):
         }
 
         with self.assertRaises(ValidationError):
-            self._create_and_clean(**schedule_data)
+            self._create_and_clean_schedule(**schedule_data)
 
     def test_create_schedule_start_time_greater_than_end_time(self):
         """Test if an exception is raised when the `start_time` is greater than the `end_time`."""
@@ -94,7 +94,7 @@ class ClassScheduleCreationValidationTestCase(TestCase):
         }
 
         with self.assertRaises(ValidationError):
-            self._create_and_clean(**schedule_data)
+            self._create_and_clean_schedule(**schedule_data)
 
     def test_create_schedule_start_date_greater_than_end_date(self):
         """Test if an exception is raised when the `start_date` is greater than the `end_date`."""
@@ -108,7 +108,7 @@ class ClassScheduleCreationValidationTestCase(TestCase):
         }
 
         with self.assertRaises(ValidationError):
-            self._create_and_clean(**schedule_data)
+            self._create_and_clean_schedule(**schedule_data)
 
     def test_create_schedule_invalid_room_location(self):
         """Test if an exception is raised when a `location` and a `room` belonging to a different
@@ -132,4 +132,4 @@ class ClassScheduleCreationValidationTestCase(TestCase):
         }
 
         with self.assertRaises(ValidationError):
-            self._create_and_clean(**schedule_data)
+            self._create_and_clean_schedule(**schedule_data)

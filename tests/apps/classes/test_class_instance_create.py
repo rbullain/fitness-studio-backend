@@ -39,7 +39,7 @@ class ClassInstanceCreationValidationTestCase(TestCase):
         self.end_datetime = datetime.datetime(2022, 11, 10, 10, 30)  # 2022-10-21 10:30:00
 
     @staticmethod
-    def _create_and_clean(**kwargs):
+    def _create_and_clean_instance(**kwargs):
         """Helper method to create and validate a ClassInstance object."""
         instance_obj = ClassInstance(**kwargs)
         instance_obj.clean()
@@ -55,7 +55,7 @@ class ClassInstanceCreationValidationTestCase(TestCase):
         }
 
         with self.assertRaises(ValidationError):
-            self._create_and_clean(**instance_data)
+            self._create_and_clean_instance(**instance_data)
 
     def test_create_instance_invalid_room_location(self):
         """Test if an exception is raised when a `location` and a `room` belonging to a different
@@ -76,4 +76,4 @@ class ClassInstanceCreationValidationTestCase(TestCase):
         }
 
         with self.assertRaises(ValidationError):
-            self._create_and_clean(**instance_data)
+            self._create_and_clean_instance(**instance_data)
