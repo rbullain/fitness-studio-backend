@@ -5,6 +5,7 @@ forget about changing in the __init__.py file the right settings to use.
 Before deployment: https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 """
 import os
+from datetime import timedelta
 
 from .base import *
 
@@ -36,3 +37,11 @@ AUTH_PASSWORD_VALIDATORS = [
         }
     },
 ]
+
+# JWT
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}

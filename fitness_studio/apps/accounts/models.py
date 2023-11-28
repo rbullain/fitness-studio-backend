@@ -71,8 +71,9 @@ class UserProfile(models.Model):
     birth_date = models.DateField(_('birth date'), null=True, blank=True)
     gender = models.CharField(_('gender'), max_length=1, choices=Gender.choices, null=True, blank=True)
 
-    picture = VersatileImageField(_('picture'), upload_to='images/profiles/', ppoi_field='ppoi', null=True, blank=True)
-    ppoi = PPOIField()
+    picture = VersatileImageField(_('picture'), upload_to='images/profiles/', ppoi_field='ppoi', null=True,
+        blank=True)
+    ppoi = PPOIField(_('picture PPOI'))
 
     class Meta:
         verbose_name = _('user profile')
