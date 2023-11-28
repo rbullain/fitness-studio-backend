@@ -7,11 +7,9 @@ UserModel = get_user_model()
 
 
 class SignUpViewTestCase(APITestCase):
+    signup_url = reverse('api:auth:signup')
 
-    def setUp(self):
-        self.signup_url = reverse('api:auth:signup')
-
-    def test_signup(self):
+    def test_signup_valid(self):
         """Test if user is successfully created with valid data."""
         user_data = {
             'email': 'test@test.com',
@@ -30,37 +28,6 @@ class SignUpViewTestCase(APITestCase):
         self.assertTrue(user.check_password(user_data['password']), "User password does not match given password")
         self.assertEqual(user.first_name, user_data['first_name'], "User first name does not match given first name")
         self.assertEqual(user.last_name, user_data['last_name'], "User last name does not match given last name")
-
-    def test_signup_invalid_email(self):
-        """Test if user is not created with an invalid email format."""
-        user_data = {
-            'email': 'Invalid email',  # Invalid email format
-            'password': 'password',
-            'password_confirm': 'password',
-            'first_name': 'ABC',
-            'last_name': '123',
-        }
-
-        response = self.client.post(self.signup_url, user_data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-        users_count = UserModel.objects.count()
-        self.assertEqual(users_count, 0)
-
-    def test_signup_missing_required_fields(self):
-        """Test if user is not created with missing required fields."""
-        user_data = {
-            'email': 'Invalid email',
-            'password': 'password',
-            'password_confirm': 'password',
-            'last_name': '123',
-        }
-
-        response = self.client.post(self.signup_url, user_data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-        users_count = UserModel.objects.count()
-        self.assertEqual(users_count, 0)
 
     def test_signup_email_already_exist(self):
         """Test if user is not created with an email that is already taken."""
@@ -81,10 +48,45 @@ class SignUpViewTestCase(APITestCase):
         users_count = UserModel.objects.count()
         self.assertEqual(users_count, 1)
 
-    def test_signup_passwords_does_not_match(self):
-        """Test if user is not created with passwords not matching."""
+
+class SignUpValidationTestCase(APITestCase):
+    signup_url = reverse('api:auth:signup')
+
+    def test_signup_invalid_email(self):
+        """Test if user fail signup validation with an invalid email format."""
         user_data = {
-            'email': 'test@test.com',  # Invalid email format
+            'email': 'Invalid email',  # Invalid email
+            'password': 'password',
+            'password_confirm': 'password',
+            'first_name': 'ABC',
+            'last_name': '123',
+        }
+
+        response = self.client.post(self.signup_url, user_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        users_count = UserModel.objects.count()
+        self.assertEqual(users_count, 0)
+
+    def test_signup_missing_required_fields(self):
+        """Test if user fail signup validation with missing required fields."""
+        user_data = {
+            'email': 'test@test.com',
+            'password': 'password',
+            'password_confirm': 'password',
+            'last_name': '123',
+        }
+
+        response = self.client.post(self.signup_url, user_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        users_count = UserModel.objects.count()
+        self.assertEqual(users_count, 0)
+
+    def test_signup_passwords_does_not_match(self):
+        """Test if user fail signup validation with passwords not matching."""
+        user_data = {
+            'email': 'test@test.com',
             'password': 'password',
             'password_confirm': 'wrong_password',
             'first_name': 'ABC',
