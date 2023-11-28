@@ -22,6 +22,10 @@ class LoginViewTestCase(APITestCase):
         response = self.client.post(self.login_url, login_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+        # Check if response contains `refresh` and `access`
+        self.assertIn('refresh', response.data)
+        self.assertIn('access', response.data)
+
     def test_login_wrong_email(self):
         """Test if user is not logged if mail is wrong."""
         login_data = {
