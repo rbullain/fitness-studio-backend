@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenBlacklistSerializer
 
 UserModel = get_user_model()
 
@@ -32,3 +32,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(TokenObtainPairSerializer):
     """Serializer for user login."""
+
+
+class LogoutSerializer(TokenBlacklistSerializer):
+    """Serializer for user logout."""
