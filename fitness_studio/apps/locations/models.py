@@ -1,6 +1,7 @@
 from django.db import models
 from django_countries.fields import CountryField
 from django.utils.translation import gettext_lazy as _
+from versatileimagefield.fields import VersatileImageField, PPOIField
 
 from apps.core.models import NameDescriptionModel
 
@@ -34,6 +35,23 @@ class Amenity(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class LocationMedia(models.Model):
+    """Media content of a location."""
+    location = models.ForeignKey('locations.Location', on_delete=models.CASCADE, related_name='media',
+        verbose_name=_('location'))
+
+    image = VersatileImageField(_('image'), upload_to='images/locations/', ppoi_field='ppoi')
+    alt = models.CharField(max_length=128, blank=True)
+    ppoi = PPOIField()
+
+    class Meta:
+        verbose_name = _('location media')
+        verbose_name_plural = _('location media')
+
+    def __str__(self):
+        return f"{self.pk} {self.location}"
 
 
 class Location(NameDescriptionModel):

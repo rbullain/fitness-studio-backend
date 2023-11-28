@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from apps.classes.models import ClassInstance, ClassDescription, ClassSchedule, ClassCategory, ClassDescriptionMedia
 
 
