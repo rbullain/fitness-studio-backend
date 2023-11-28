@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 UserModel = get_user_model()
 
@@ -14,7 +15,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password_confirm']:
-            raise serializers.ValidationError("Passwords did not match")
+            raise serializers.ValidationError({'password_confirm': "Passwords did not match"})
         return attrs
 
     def create(self, validated_data):
@@ -27,3 +28,7 @@ class SignUpSerializer(serializers.ModelSerializer):
 
         user = UserModel.objects.create_user(**user_data)
         return user
+
+
+class LoginSerializer(TokenObtainPairSerializer):
+    """Serializer for user login."""
