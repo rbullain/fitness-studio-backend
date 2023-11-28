@@ -8,7 +8,9 @@ router = DefaultRouter()
 router.registry.extend(classes_router.registry)
 router.registry.extend(locations_router.registry)
 
+app_name = 'api'
+
 urlpatterns = [
-    path('auth/', include('api.auth.urls')),
+    path('auth/', include('api.auth.urls', namespace='auth')),
     path('', include(router.urls)),
 ]

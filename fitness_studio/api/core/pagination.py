@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 class CustomPagination(pagination.LimitOffsetPagination):
     """Custom limit/offset pagination style."""
+
     def get_paginated_response(self, data):
         return Response({
             'pagination': {
