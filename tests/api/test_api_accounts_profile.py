@@ -14,7 +14,7 @@ class ProfileViewTestCase(APITestCase):
         self.user = UserModel.objects.create_user(email='test@test.com', password='password')
 
     def _authenticate_user(self, user):
-        """Helper function to authenticate an user. Set the JWT token in the header for the client."""
+        """Helper function to authenticate a user. Set the JWT token in the header for the client."""
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
 

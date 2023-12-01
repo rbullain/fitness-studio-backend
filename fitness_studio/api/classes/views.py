@@ -1,43 +1,69 @@
-from rest_framework import viewsets
+from datetime import datetime
 
-from api.core.mixins import SerializerActionViewSetMixin
-from apps.classes.models import ClassDescription, ClassCategory, ClassSchedule, ClassInstance
-from api.classes import serializers
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import AllowAny
 
-
-class ClassCategoryViewSet(viewsets.ModelViewSet):
-    queryset = ClassCategory.objects.all()
-    serializer_class = serializers.ClassCategoryReadSerializer
+from apps.classes.models import ClassDescription, ClassSchedule, ClassInstance
+from api.classes.serializers import ClassDescriptionSerializer, ClassScheduleSerializer, ClassInstanceSerializer
+from api.classes.filters import ClassDescriptionFilterSet, ClassScheduleFilterSet, ClassInstanceFilterSet
 
 
-class ClassDescriptionViewSet(viewsets.ModelViewSet):
+class ClassDescriptionListView(ListAPIView):
     queryset = ClassDescription.objects.all()
-    serializer_class = serializers.ClassDescriptionReadSerializer
-    filterset_fields = {
-        # TODO: Add filter by dates of related instance classes.
-    }
+    permission_classes = (AllowAny,)
+    serializer_class = ClassDescriptionSerializer
+    filterset_class = ClassDescriptionFilterSet
 
 
-class ClassScheduleViewSet(SerializerActionViewSetMixin, viewsets.ModelViewSet):
+class ClassScheduleListView(ListAPIView):
+    """"""
     queryset = ClassSchedule.objects.all()
-    serializer_action_classes = {
-        'create': serializers.ClassScheduleCreateSerializer,
-        'update': serializers.ClassScheduleUpdateSerializer,
-    }
-    default_serializer_class = serializers.ClassScheduleReadSerializer
-    filterset_fields = {
-        'class_description': ['in'],
-        'location': ['in'],
-    }
+    permission_classes = (AllowAny,)
+    serializer_class = ClassScheduleSerializer
+    filterset_class = ClassScheduleFilterSet
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Handle the case if the filter for `start_date` or `end_date` are not set.
+        # If `start_date` is not set then it filters from the current date.
+        # If `end_date` is not set then it filters from the `start_date`.
+        start_date = self.request.query_params.get('start_date')
+        end_date = self.request.query_params.get('end_date')
+        now = datetime.now()
+
+        if start_date is None and end_date is None:
+            queryset = queryset.filter(start_date=now)
+        elif start_date is None:
+            queryset = queryset.filter(start_date__gte=now)
+        elif end_date is None:
+            queryset = queryset.filter(start_date__lte=start_date)
+
+        return queryset
 
 
-class ClassInstanceViewSet(viewsets.ModelViewSet):
+class ClassInstanceListView(ListAPIView):
+    """"""
     queryset = ClassInstance.objects.all()
-    serializer_class = serializers.ClassInstanceReadSerializer
-    filterset_fields = {
-        'class_description': ['in'],
-        'class_schedule': ['in'],
-        'start_datetime': ['gte', 'lte'],
-        'location': ['in'],
-        'modified': ['gte'],
-    }
+    permission_classes = (AllowAny,)
+    serializer_class = ClassInstanceSerializer
+    filterset_class = ClassInstanceFilterSet
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Handle the case if the filter for `start_datetime` or `end_datetime` are not set.
+        # If `start_datetime` is not set then it filters from the current datetime.
+        # If `end_datetime` is not set then it filters from the `start_datetime` date.
+        start_datetime = self.request.query_params.get('start_datetime')
+        end_datetime = self.request.query_params.get('end_datetime')
+        now = datetime.now()
+
+        if start_datetime is None and end_datetime is None:
+            queryset = queryset.filter(start_datetime__date=now)
+        elif start_datetime is None:
+            queryset = queryset.filter(start_datetime__gte=now)
+        elif end_datetime is None:
+            queryset = queryset.filter(start_datetime__date__lte=start_datetime)
+
+        return queryset

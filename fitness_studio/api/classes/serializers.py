@@ -1,45 +1,23 @@
 from rest_framework import serializers
 
-from apps.classes.models import ClassCategory, ClassDescription, ClassInstance, ClassSchedule
+from apps.classes.models import ClassDescription, ClassSchedule, ClassInstance
 
 
-class ClassCategoryReadSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClassCategory
-        fields = '__all__'
-
-
-class ClassDescriptionReadSerializer(serializers.ModelSerializer):
-    category = ClassCategoryReadSerializer()
-
+class ClassDescriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassDescription
         exclude = ('created',)
 
 
-class ClassScheduleReadSerializer(serializers.ModelSerializer):
-    class_description = ClassDescriptionReadSerializer()
+class ClassScheduleSerializer(serializers.ModelSerializer):
+    classes = serializers.PrimaryKeyRelatedField(queryset=ClassInstance.objects.all(), many=True)
 
     class Meta:
         model = ClassSchedule
-        exclude = ('created',)
+        exclude = ('created', 'room',)
 
 
-class ClassScheduleCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClassSchedule
-        fields = '__all__'
-
-
-class ClassScheduleUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClassSchedule
-        fields = '__all__'
-
-
-class ClassInstanceReadSerializer(serializers.ModelSerializer):
-    class_description = ClassDescriptionReadSerializer()
-
+class ClassInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassInstance
-        exclude = ('created',)
+        exclude = ('created', 'room',)

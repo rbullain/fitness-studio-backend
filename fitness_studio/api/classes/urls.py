@@ -1,9 +1,11 @@
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-from api.classes import views
+from api.classes.views import ClassDescriptionListView, ClassScheduleListView, ClassInstanceListView
 
-router = DefaultRouter()
-router.register('classes/categories', views.ClassCategoryViewSet, basename='class-categories')
-router.register('classes/descriptions', views.ClassDescriptionViewSet, basename='class-description')
-router.register('classes/schedules', views.ClassScheduleViewSet, basename='class-schedule')
-router.register('classes/instances', views.ClassInstanceViewSet, basename='class-instance')
+app_name = 'classes'
+
+urlpatterns = [
+    path('description', ClassDescriptionListView.as_view()),
+    path('schedule', ClassScheduleListView.as_view()),
+    path('instance', ClassInstanceListView.as_view()),
+]
