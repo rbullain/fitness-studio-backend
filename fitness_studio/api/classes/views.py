@@ -3,9 +3,16 @@ from datetime import datetime
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 
-from apps.classes.models import ClassDescription, ClassSchedule, ClassInstance
-from api.classes.serializers import ClassDescriptionSerializer, ClassScheduleSerializer, ClassInstanceSerializer
+from apps.classes.models import ClassCategory, ClassDescription, ClassSchedule, ClassInstance
 from api.classes.filters import ClassDescriptionFilterSet, ClassScheduleFilterSet, ClassInstanceFilterSet
+from api.classes.serializers import ClassDescriptionSerializer, ClassScheduleSerializer, ClassInstanceSerializer, \
+    ClassCategorySerializer
+
+
+class ClassCategoryListView(ListAPIView):
+    queryset = ClassCategory.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = ClassCategorySerializer
 
 
 class ClassDescriptionListView(ListAPIView):

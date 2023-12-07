@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from apps.classes.models import ClassDescription, ClassSchedule, ClassInstance
+from apps.classes.models import ClassCategory, ClassDescription, ClassSchedule, ClassInstance
+
+
+class ClassCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassCategory
+        fields = '__all__'
 
 
 class ClassDescriptionSerializer(serializers.ModelSerializer):
