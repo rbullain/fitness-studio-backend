@@ -1,8 +1,8 @@
-Django==4.2.7
-django-extensions~=3.2.3
-python-dateutil~=2.8.2
-django-countries==7.5.1
-django-versatileimagefield~=3.0
-djangorestframework~=3.14.0
-django-filter~=23.4
-djangorestframework-simplejwt~=5.3.0
+Django==5.0.4
+django-extensions==3.2.3
+python-dateutil==2.9.0.post0
+django-countries==7.6.1
+django-versatileimagefield==3.1
+djangorestframework==3.15.1
+django-filter==24.2
+djangorestframework-simplejwt==5.3.1
