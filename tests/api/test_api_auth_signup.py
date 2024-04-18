@@ -10,7 +10,7 @@ class SignUpViewTestCase(APITestCase):
     signup_url = reverse('api:auth:signup')
 
     def test_signup_valid(self):
-        """Test if user is successfully created with valid data."""
+        """Test if a user is successfully created with valid data."""
         user_data = {
             'email': 'test@test.com',
             'password': 'password',
@@ -30,7 +30,7 @@ class SignUpViewTestCase(APITestCase):
         self.assertEqual(user.last_name, user_data['last_name'], "User last name does not match given last name")
 
     def test_signup_email_already_exist(self):
-        """Test if user is not created with an email that is already taken."""
+        """Test if a user is not created with an email that is already taken."""
         # Create a user with the same email to test
         UserModel.objects.create_user(email='existing@test.com', password='password')
 
@@ -53,7 +53,7 @@ class SignUpValidationTestCase(APITestCase):
     signup_url = reverse('api:auth:signup')
 
     def test_signup_invalid_email(self):
-        """Test if user fail signup validation with an invalid email format."""
+        """Test if a user fails signup validation with an invalid email format."""
         user_data = {
             'email': 'Invalid email',  # Invalid email
             'password': 'password',
@@ -69,7 +69,7 @@ class SignUpValidationTestCase(APITestCase):
         self.assertEqual(users_count, 0)
 
     def test_signup_missing_required_fields(self):
-        """Test if user fail signup validation with missing required fields."""
+        """Test if a user fails signup validation with missing required fields."""
         user_data = {
             'email': 'test@test.com',
             'password': 'password',
@@ -84,7 +84,7 @@ class SignUpValidationTestCase(APITestCase):
         self.assertEqual(users_count, 0)
 
     def test_signup_passwords_does_not_match(self):
-        """Test if user fail signup validation with passwords not matching."""
+        """Test if a user fails signup validation with passwords not matching."""
         user_data = {
             'email': 'test@test.com',
             'password': 'password',

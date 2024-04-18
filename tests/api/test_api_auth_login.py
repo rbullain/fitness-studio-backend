@@ -13,7 +13,7 @@ class LoginViewTestCase(APITestCase):
         self.user = UserModel.objects.create_user(email='test@test.com', password='password')
 
     def test_login_valid(self):
-        """Test if user is logged in successfully with valid data."""
+        """Test if a user is logged in successfully with valid data."""
         login_data = {
             'email': 'test@test.com',
             'password': 'password',
@@ -51,7 +51,7 @@ class LoginValidationTestCase(APITestCase):
     login_url = reverse('api:auth:login')
 
     def test_login_invalid_email(self):
-        """Test if user fail login validation with an invalid email format."""
+        """Test if a user fails to log in login validation with an invalid email format."""
         login_data = {
             'email': 'Invalid email',
             'password': 'password',
@@ -61,7 +61,7 @@ class LoginValidationTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_login_empty_email(self):
-        """Test if user fail login validation with an empty email."""
+        """Test if a user fails to log in validation with an empty email."""
         login_data = {
             'email': '',
             'password': 'password',
@@ -71,7 +71,7 @@ class LoginValidationTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_login_empty_password(self):
-        """Test if user fail login validation with an empty password."""
+        """Test if a user fails to log in validation with an empty password."""
         login_data = {
             'email': 'test@test.com',
             'password': '',

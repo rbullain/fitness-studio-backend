@@ -1,6 +1,6 @@
 """
-Use this file as a basis for setting up your project configuration, and do not
-forget about changing in the __init__.py file the right settings to use.
+Use this file as a basis for setting up your project configuration,
+and update the __init__.py file the right settings to use.
 
 Before deployment: https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 """
