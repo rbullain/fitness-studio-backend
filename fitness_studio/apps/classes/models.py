@@ -8,7 +8,7 @@ from dateutil.rrule import MO, TU, WE, TH, FR, SA, SU
 
 class ClassCategory(models.Model):
     """The category of a class."""
-    name = models.CharField(_('name'), max_length=50)
+    name = models.CharField(_('name'), max_length=50, unique=True)
     image = VersatileImageField(_('image'), upload_to='images/categories/', null=True, blank=True)
 
     class Meta:
