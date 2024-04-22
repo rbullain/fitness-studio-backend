@@ -1,13 +1,17 @@
 from django.urls import path
 
-from api.classes.views import ClassDescriptionListView, ClassScheduleListView, ClassInstanceListView, \
-    ClassCategoryListView
+from api.classes.views import (
+    ClassCategoryListCreateView,
+    ClassDescriptionListCreateView,
+    ClassInstanceListCreateView,
+    ClassScheduleListCreateView,
+)
 
 app_name = 'classes'
 
 urlpatterns = [
-    path('description', ClassDescriptionListView.as_view()),
-    path('schedule', ClassScheduleListView.as_view()),
-    path('instance', ClassInstanceListView.as_view()),
-    path('category', ClassCategoryListView.as_view()),
+    path('category', ClassCategoryListCreateView.as_view()),
+    path('description', ClassDescriptionListCreateView.as_view()),
+    path('instance', ClassInstanceListCreateView.as_view()),
+    path('schedule', ClassScheduleListCreateView.as_view()),
 ]

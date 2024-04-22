@@ -1,14 +1,19 @@
-from rest_framework import viewsets
+from rest_framework.generics import ListCreateAPIView
 
-from apps.locations.models import Amenity, Location
-from api.locations import serializers
+from apps.locations.models import Location, Address, Amenity
+from api.locations.serializers import LocationSerializer, AddressSerializer, AmenitySerializer
 
 
-class AmenityReadViewSet(viewsets.ReadOnlyModelViewSet):
+class AmenitiesListCreateView(ListCreateAPIView):
     queryset = Amenity.objects.all()
-    serializer_class = serializers.AmenityReadSerializer
+    serializer_class = AmenitySerializer
 
 
-class LocationReadViewSet(viewsets.ReadOnlyModelViewSet):
+class AddressListCreateView(ListCreateAPIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+
+
+class LocationListCreateView(ListCreateAPIView):
     queryset = Location.objects.all()
-    serializer_class = serializers.LocationReadSerializer
+    serializer_class = LocationSerializer

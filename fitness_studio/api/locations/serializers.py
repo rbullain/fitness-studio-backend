@@ -1,18 +1,21 @@
 from rest_framework import serializers
 
-from apps.locations.models import Amenity, Location
+from apps.locations.models import Location, Address, Amenity
 
 
-class AmenityReadSerializer(serializers.ModelSerializer):
+class AmenitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Amenity
         fields = '__all__'
 
 
-class LocationReadSerializer(serializers.ModelSerializer):
-    amenities = AmenityReadSerializer(many=True)
-    address = serializers.StringRelatedField()
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
 
+
+class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = '__all__'

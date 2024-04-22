@@ -1,7 +1,15 @@
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-from api.locations import views
+from api.locations.views import (
+    LocationListCreateView,
+    AmenitiesListCreateView,
+    AddressListCreateView,
+)
 
-router = DefaultRouter()
-router.register('locations/amenities', views.AmenityReadViewSet, basename='amenities')
-router.register('locations/locations', views.LocationReadViewSet, basename='locations')
+app_name = 'locations'
+
+urlpatterns = [
+    path('amenity', AmenitiesListCreateView.as_view()),
+    path('address', AddressListCreateView.as_view()),
+    path('location', LocationListCreateView.as_view()),
+]

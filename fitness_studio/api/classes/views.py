@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from rest_framework.generics import ListAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import ListAPIView, ListCreateAPIView
 
 from apps.classes.models import ClassCategory, ClassDescription, ClassSchedule, ClassInstance
 from api.classes.filters import ClassDescriptionFilterSet, ClassScheduleFilterSet, ClassInstanceFilterSet
@@ -9,29 +8,23 @@ from api.classes.serializers import ClassDescriptionSerializer, ClassScheduleSer
     ClassCategorySerializer
 
 
-class ClassCategoryListView(ListAPIView):
+class ClassCategoryListCreateView(ListCreateAPIView):
     queryset = ClassCategory.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = ClassCategorySerializer
 
 
-class ClassDescriptionListView(ListAPIView):
+class ClassDescriptionListCreateView(ListCreateAPIView):
     queryset = ClassDescription.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = ClassDescriptionSerializer
     filterset_class = ClassDescriptionFilterSet
 
 
-class ClassScheduleListView(ListAPIView):
-    """"""
+class ClassScheduleListCreateView(ListCreateAPIView):
     queryset = ClassSchedule.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = ClassScheduleSerializer
     filterset_class = ClassScheduleFilterSet
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
+    def filter_queryset(self, queryset):
         # Handle the case if the filter for `start_date` or `end_date` are not set.
         # If `start_date` is not set then it filters from the current date.
         # If `end_date` is not set then it filters from the `start_date`.
@@ -49,16 +42,12 @@ class ClassScheduleListView(ListAPIView):
         return queryset
 
 
-class ClassInstanceListView(ListAPIView):
-    """"""
+class ClassInstanceListCreateView(ListCreateAPIView):
     queryset = ClassInstance.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = ClassInstanceSerializer
     filterset_class = ClassInstanceFilterSet
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
+    def filter_queryset(self, queryset):
         # Handle the case if the filter for `start_datetime` or `end_datetime` are not set.
         # If `start_datetime` is not set then it filters from the current datetime.
         # If `end_datetime` is not set then it filters from the `start_datetime` date.

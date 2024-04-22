@@ -12,7 +12,7 @@ class ClassCategorySerializer(serializers.ModelSerializer):
 class ClassDescriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassDescription
-        exclude = ('created',)
+        fields = '__all__'
 
 
 class ClassScheduleSerializer(serializers.ModelSerializer):
@@ -20,10 +20,10 @@ class ClassScheduleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClassSchedule
-        exclude = ('created', 'room',)
+        fields = '__all__'
 
 
 class ClassInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassInstance
-        exclude = ('created', 'room',)
+        fields = '__all__'
